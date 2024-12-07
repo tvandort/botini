@@ -14,7 +14,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "run": "node ."
+    "start": "node ."
   },
   "description": "A Discord bot to make Nonna proud!",
   "type": "module"
