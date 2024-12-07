@@ -100,6 +100,16 @@ client.on(Events.MessageCreate, async (message) => {
 
     const messageContentClean = content.substring(2, content.length - 2).toLowerCase().trim();
 
+    if (messageContentClean.includes("taylor ham")) {
+        message.channel.send("YES SIR YES SIR THAT IS CORRECT!");
+
+        return;
+    } else if (messageContentClean.includes("pork roll")) {
+        message.channel.send("WRONG!");
+
+        return;
+    }
+
     const allFuzzyMatchingStrings = getMatchingStrings(messageContentClean);
 
     if (allFuzzyMatchingStrings.pastas?.length) {
@@ -115,11 +125,12 @@ client.on(Events.MessageCreate, async (message) => {
     }
 
     const uriEncodedPasta = encodeURIComponent(messageContentClean);
+    const spaceReplacedUri = uriEncodedPasta.replace('%20', '_');
 
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append("User-Agent", "DiscordBot PastaBot Jonathan Forscher");
-    const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${uriEncodedPasta}?redirect=true`;
+    const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${spaceReplacedUri}?redirect=true`;
     console.log(`FORMATTED URL: ${url}`);
     const getDaPastaRequest = new Request(url, {
         method: "GET",
