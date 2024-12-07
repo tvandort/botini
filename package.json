@@ -1,0 +1,21 @@
+{
+  "name": "botini",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.16.0",
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "run": "node ."
+  },
+  "description": "A Discord bot to make Nonna proud!",
+  "type": "module"
+}
