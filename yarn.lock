@@ -480,6 +480,11 @@ flatted@^3.2.9:
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.3.2.tgz#adba1448a9841bec72b42c532ea23dbbedef1a27"
   integrity sha512-AiwGJM8YcNOaobumgtng+6NHuOqC3A7MixFeDafM3X9cIUM+xUXoS5Vfgf+OihAYe20fxqNM9yPBXJzRtZ/4eA==
 
+fuzzyset@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/fuzzyset/-/fuzzyset-1.0.7.tgz#dbef22072ab3315b0ded28a235c1006ec9abd3fe"
+  integrity sha512-RjcvWPK6v+FHwierTqnjXjtF6fgZCOVucORlOt4ZEJRrHUqt4tRiCIzg1Zm0XMSAZGMTBCSHPx4IgdBH3m0VZg==
+
 glob-parent@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-6.0.2.tgz#6d237d99083950c79290f24c7642a3de9a28f9e3"
