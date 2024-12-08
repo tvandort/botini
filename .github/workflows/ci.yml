@@ -4,6 +4,8 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
+      - name: Install modules
+        run: yarn install
       - uses: willcaul/jest-github-action@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
