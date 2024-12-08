@@ -23,11 +23,5 @@ export async function fetchPastas() {
     }
   }
 
-  const json = JSON.stringify(pastas, null, 2);
-
-  fs.writeFile("./data/pastas.json", json, (err) => {
-    console.error(err);
-  });
+  return pastas;
 }
-
-fetchPastas();
