@@ -1,6 +1,7 @@
 name: CI
 on: [push]
 jobs:
+  runs-on: ubuntu-latest
   tests:
     steps:
       - uses: willcaul/jest-github-action@v1.0.2
