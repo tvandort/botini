@@ -3,6 +3,7 @@ import {Client, Events, GatewayIntentBits} from 'discord.js';
 import {pino} from 'pino';
 import pretty from 'pino-pretty';
 import FuzzySet from 'fuzzyset';
+import {Keyv} from 'keyv';
 
 import pastaJson from './pasta.json' with {type: 'json'};
 import memeJson from './memes.json' with {type: 'json'};
@@ -34,6 +35,9 @@ memeJson.forEach(meme => {
 const PASTA_SET = 'PASTA_SET';
 const MEME_SET = 'MEME_SET';
 
+const rateLimitWindow = 10 * 1000;  // 10 second window in milliseconds
+const maxRequests = 5;  // Allow 5 requests per user per window
+
 // eslint-disable-next-line no-undef
 if (!process.env.DISCORD_TOKEN) {
     logger.error('Error: Specify DISCORD_TOKEN in .env');
@@ -50,12 +54,14 @@ const client = new Client({ intents: [
 });
 
 let textChannels;
+let keyv;
 // When the client is ready, run this code (only once).
 // The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
 // It makes some properties non-nullable.
 client.once(Events.ClientReady, readyClient => {
     logger.info(`Ready! Logged in as ${readyClient.user.tag}`);
 
+    keyv = new Keyv();
     textChannels = client.channels.cache.filter(channel => {
         return channel.isTextBased() && channel.isSendable();
     }).map(channel => {
@@ -140,7 +146,15 @@ function capitalize(stringToCapitalize) {
 }
 
 // TODO Handle non-wikipedia
-async function makeRequest(searchTerm) {
+async function makeRequest(searchTerm, usernameMakingRequest) {
+    const isAllowed = await isUserRateLimited(usernameMakingRequest);
+
+    if (!isAllowed) {
+        logger.warn(`${usernameMakingRequest} has exceeded their rate limit`);
+
+        throw new RateLimitError(usernameMakingRequest);
+    }
+
     const uriEncodedPasta = encodeURIComponent(searchTerm);
     const spaceReplacedUri = uriEncodedPasta.replace('%20', '_');
 
@@ -153,7 +167,7 @@ async function makeRequest(searchTerm) {
         method: "GET",
         headers: headers,
     });
-    // TODO rate limit
+
     const response = await fetch(getDaPastaRequest);
 
     if (!response.ok) {
@@ -165,7 +179,7 @@ async function makeRequest(searchTerm) {
         const errorBody = await response.text();
         logger.error(`Error body: ${errorBody}`);
 
-        throw new RequestFailedError("Mama mia, that request was too spicy and Nonna had an error!");
+        throw new RequestFailedError("Oof marone, that request was too spicy and Nonna had an error!");
     }
 
     return response.json();
@@ -218,9 +232,16 @@ client.on(Events.MessageCreate, async (message) => {
 
     let responseJson;
     try {
-        responseJson = await makeRequest(messageContentClean);
+        responseJson = await makeRequest(messageContentClean, message.author.username);
     } catch (error) {
-        message.channel.send(error.message);
+        switch (true) {
+            case error instanceof RateLimitError:
+                await message.reply(`Nonna demands you slow down with your requests ${message.author.username}, or she can't serve pasta to everyone!`);
+                break;
+            default:
+                message.channel.send(error.message);
+                break;
+        }
 
         return;
     }
@@ -271,6 +292,13 @@ class RequestFailedError extends Error {
     }
 }
 
+class RateLimitError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'RateLimitError';
+    }
+}
+
 function findPastaRelatedItems(inputString) {
     const lowerCaseInput = inputString.toLowerCase();
     const matches = [];
@@ -284,4 +312,36 @@ function findPastaRelatedItems(inputString) {
     logger.info("Found the following pasta-related items: ", matches.join(", "));
 
     return matches.length;
+}
+
+async function isUserRateLimited(username) {
+    const key = `rateLimit:${username}`;
+
+    // Retrieve the current request count and timestamp from Keyv
+    const data = await keyv.get(key);
+
+    const currentTime = Date.now();
+
+    if (data) {
+        const {count, lastRequestTime} = data;
+
+        if (currentTime - lastRequestTime > rateLimitWindow) {
+            await keyv.set(key, {count: 1, lastRequestTime: currentTime});
+
+            return true; // The request is allowed
+        }
+
+        if (count < maxRequests) {
+            await keyv.set(key, {count: count + 1, lastRequestTime});
+
+            return true; // The request is allowed
+        } else {
+            return false; // Exceeded the rate limit
+        }
+    } else {
+        // If no data exists, create new record
+        await keyv.set(key, {count: 1, lastRequestTime: currentTime});
+
+        return true; // The request is allowed
+    }
 }
