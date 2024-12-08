@@ -27,7 +27,8 @@
     "production": "pm2 start index.js",
     "stop": "pm2 stop index.js",
     "restart": "pm2 restart index.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:ci": "node --experimental-vm-modules node_modules/jest/bin/jest.js --testLocationInResults --json --coverage --outputFile=\"jest.results.json\""
   },
   "description": "A Discord bot to make Nonna proud!",
   "type": "module",
