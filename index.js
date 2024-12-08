@@ -1,9 +1,26 @@
 import 'dotenv/config';
 import {Client, Events, GatewayIntentBits} from 'discord.js';
+import {pino} from 'pino';
+import pretty from 'pino-pretty';
 import FuzzySet from 'fuzzyset';
 
 import pastaJson from './pasta.json' with {type: 'json'};
 import memeJson from './memes.json' with {type: 'json'};
+import foodJson from './food.json' with {type: 'json'};
+
+let logger;
+if (pretty.isColorSupported) {
+    logger = pino({
+        transport: {
+            target: 'pino-pretty',
+            options: {
+                colorize: true
+            }
+        }
+    });
+} else {
+    logger = pino();
+}
 
 const fuzzyPastaSet = FuzzySet();
 pastaJson.forEach(pasta => {
@@ -14,9 +31,12 @@ memeJson.forEach(meme => {
     fuzzyMemeSet.add(meme.toLowerCase());
 });
 
+const PASTA_SET = 'PASTA_SET';
+const MEME_SET = 'MEME_SET';
+
 // eslint-disable-next-line no-undef
 if (!process.env.DISCORD_TOKEN) {
-    console.log('Error: Specify DISCORD_TOKEN in .env');
+    logger.error('Error: Specify DISCORD_TOKEN in .env');
     // eslint-disable-next-line no-undef
     process.exit(1);
 }
@@ -34,7 +54,7 @@ let textChannels;
 // The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
 // It makes some properties non-nullable.
 client.once(Events.ClientReady, readyClient => {
-    console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+    logger.info(`Ready! Logged in as ${readyClient.user.tag}`);
 
     textChannels = client.channels.cache.filter(channel => {
         return channel.isTextBased() && channel.isSendable();
@@ -43,44 +63,69 @@ client.once(Events.ClientReady, readyClient => {
     });
 });
 
-function getMatchingStrings(stringToMatch, scoreMin = 0.5) {
-    // array of [score, matched_value] arrays
-    const allMatchedPastas = fuzzyPastaSet.get(stringToMatch);
-    const allMatchedMemes = fuzzyMemeSet.get(stringToMatch);
+function getHighestScoringInSet(allMatchedItems) {
+    return allMatchedItems?.reduce((maxItem, currentItem) =>
+        currentItem[0] > maxItem[0] ? currentItem : maxItem
+    )[0];
+}
 
+function getMatchingStrings(stringToMatch, scoreMin = 0.5, setsToCheck = [PASTA_SET]) {
+    logger.info(`SETS MATCHING ON: ${setsToCheck.join(', ')}`);
+    // Comma separated list of strings to suggest
     const allMatchedStrings = {};
 
-    const highestScorePasta = allMatchedPastas?.reduce((maxItem, currentItem) =>
-        currentItem[0] > maxItem[0] ? currentItem : maxItem
-    )[0];
-
-    const highestScoreMeme = allMatchedMemes?.reduce((maxItem, currentItem) =>
-        currentItem[0] > maxItem[0] ? currentItem : maxItem
-    )[0];
-
-    if (highestScorePasta === 1 || highestScoreMeme === 1) {
-        return;
+    // array of [score, matched_value] arrays
+    let allMatchedPastas;
+    if (setsToCheck.includes(PASTA_SET)) {
+        allMatchedPastas = fuzzyPastaSet.get(stringToMatch);
     }
 
     if (allMatchedPastas) {
-        allMatchedStrings.pastas = getMatchingStringsSort(allMatchedPastas, scoreMin);
+        const highestScorePasta = getHighestScoringInSet(allMatchedPastas);
+
+        if (highestScorePasta === 1) {
+            // Don't suggest an exact match
+            return;
+        }
+
+        allMatchedStrings.pastas = getMatchingStringsSorted(allMatchedPastas, scoreMin);
+
+        logger.info(`ALL MATCHED PASTAS: ${allMatchedStrings.pastas}`);
+    }
+
+    // array of [score, matched_value] arrays
+    let allMatchedMemes;
+    if (setsToCheck.includes(MEME_SET)) {
+        allMatchedMemes = fuzzyMemeSet.get(stringToMatch);
     }
 
     if (allMatchedMemes) {
-        allMatchedStrings.memes = getMatchingStringsSort(allMatchedMemes, scoreMin);
+        const highestScoreMeme = getHighestScoringInSet(allMatchedMemes);
+
+        if (highestScoreMeme === 1) {
+            // Don't suggest an exact match
+            return;
+        }
+
+        allMatchedStrings.memes = getMatchingStringsSorted(allMatchedMemes, scoreMin);
+
+        logger.info(`ALL MATCHED MEMES: ${allMatchedStrings.memes}`);
     }
 
-    console.log(`ALL MATCHED PASTAS: ${allMatchedStrings.pastas}`);
-    console.log(`ALL MATCHED MEMES: ${allMatchedStrings.memes}`)
     return allMatchedStrings;
 }
 
-function getMatchingStringsSort(fuzzySet, scoreMin) {
+/**
+ * 1. Sort by score descending
+ * 2. Remove items that do not exceed or match the minimum score
+ * 3. Capitalize the item names
+ * 4. Combine into one string, comma separated
+ */
+function getMatchingStringsSorted(fuzzySet, scoreMin) {
     return fuzzySet.toSorted((thingA, thingB) => {
         return thingB[0] - thingA[0];
     }).filter(thing => {
-        // We do not want perfect matches to be suggested
-        return thing[0] >= scoreMin && thing[0] !== 1;
+        return thing[0] >= scoreMin;
     }).map(thing => {
         return capitalize(thing[1]);
     }).join(', ');
@@ -92,6 +137,38 @@ function capitalize(stringToCapitalize) {
     }
 
     return String(stringToCapitalize[0]).toUpperCase() + String(stringToCapitalize).slice(1);
+}
+
+// TODO Handle non-wikipedia
+async function makeRequest(searchTerm) {
+    const uriEncodedPasta = encodeURIComponent(searchTerm);
+    const spaceReplacedUri = uriEncodedPasta.replace('%20', '_');
+
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("User-Agent", "DiscordBot PastaBot Jonathan Forscher");
+    const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${spaceReplacedUri}?redirect=true`;
+    logger.info(`FORMATTED URL: ${url}`);
+    const getDaPastaRequest = new Request(url, {
+        method: "GET",
+        headers: headers,
+    });
+    // TODO rate limit
+    const response = await fetch(getDaPastaRequest);
+
+    if (!response.ok) {
+        if (response.status === 404) {
+            throw new RequestNotFoundError("Mama mia, Nonna cannot find that!");
+        }
+
+        logger.error(`Error response status: ${response.status}`);
+        const errorBody = await response.text();
+        logger.error(`Error body: ${errorBody}`);
+
+        throw new RequestFailedError("Mama mia, that request was too spicy and Nonna had an error!");
+    }
+
+    return response.json();
 }
 
 client.on(Events.MessageCreate, async (message) => {
@@ -124,6 +201,7 @@ client.on(Events.MessageCreate, async (message) => {
         return;
     }
 
+    // TODO Bring back the meme set
     const allFuzzyMatchingStrings = getMatchingStrings(messageContentClean);
 
     if (allFuzzyMatchingStrings?.pastas?.length) {
@@ -138,65 +216,72 @@ client.on(Events.MessageCreate, async (message) => {
         return;
     }
 
-    const uriEncodedPasta = encodeURIComponent(messageContentClean);
-    const spaceReplacedUri = uriEncodedPasta.replace('%20', '_');
-
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("User-Agent", "DiscordBot PastaBot Jonathan Forscher");
-    const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${spaceReplacedUri}?redirect=true`;
-    console.log(`FORMATTED URL: ${url}`);
-    const getDaPastaRequest = new Request(url, {
-        method: "GET",
-        headers: headers,
-    });
-    // TODO rate limit
-    const response = await fetch(getDaPastaRequest);
-
-    if (!response.ok) {
-
-        if (response.status === 404) {
-            message.channel.send("Mama mia, Nonna cannot find that!");
-
-            return;
-        }
-        message.channel.send("Mama mia, that request was too spicy and Nonna had an error!");
-        console.log(`Error response status: ${response.status}`);
-        const errorBody = await response.text();
-        console.log(`Error body: ${errorBody}`);
+    let responseJson;
+    try {
+        responseJson = await makeRequest(messageContentClean);
+    } catch (error) {
+        message.channel.send(error.message);
 
         return;
     }
 
-    const responseJson = await response.json();
-
-    let pastaPicture = '';
+    let wikipediaPicture = '';
     if (responseJson?.thumbnail) {
-        pastaPicture = responseJson.thumbnail['source'];
+        wikipediaPicture = responseJson.thumbnail['source'];
     }
 
-    let pastaDescription = responseJson['description'];
-    let pastaExtract = responseJson['extract'];
+    let wikipediaArticleDescription = responseJson['description'];
+    let wikipediaArticleExtract = responseJson['extract'];
 
-    // TODO FIX THIS
-    if (pastaDescription === 'Topics referred to by the same term') {
-        pastaDescription = responseJson['content_urls']['desktop']['page'];
-        pastaExtract = responseJson['content_urls']['mobile']['page'];
+    // TODO FIX THIS. It should follow redirects or something?
+    if (wikipediaArticleDescription === 'Topics referred to by the same term') {
+        wikipediaArticleDescription = responseJson['content_urls']['desktop']['page'];
+        wikipediaArticleExtract = responseJson['content_urls']['mobile']['page'];
     }
 
-    const stuffToSend = pastaPicture + '\n\n' + pastaDescription + '\n\n' + pastaExtract;
+    const stuffToSend = wikipediaPicture + '\n\n' + wikipediaArticleDescription + '\n\n' + wikipediaArticleExtract;
 
     // TODO This probably has terrible performance
-    // if (!stuffToSend.toLowerCase().includes("pasta")) {
-    //     message.channel.send("Nonna says you need to include pastas only!");
-    //
-    //     return;
-    // }
+    if (findPastaRelatedItems(stuffToSend) > 0) {
+        message.channel.send("Nonna says you need to include pasta only!");
 
-    console.log("Sending: " + stuffToSend);
+        return;
+    }
+
+    logger.info(`Sending: ${stuffToSend}`);
     message.channel.send(stuffToSend);
 });
 
 // eslint-disable-next-line no-undef
 client.login(process.env.DISCORD_TOKEN)
-    .then(() => console.log('Logged in!'));
+    .then(() => logger.info('Logged in!'));
+
+
+class RequestNotFoundError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'RequestNotFoundError';
+    }
+}
+
+class RequestFailedError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'RequestFailedError';
+    }
+}
+
+function findPastaRelatedItems(inputString) {
+    const lowerCaseInput = inputString.toLowerCase();
+    const matches = [];
+
+    for (let item of foodJson) {
+        if (lowerCaseInput.includes(item.toLowerCase())) {
+            matches.push(item);
+        }
+    }
+
+    logger.info("Found the following pasta-related items: ", matches.join(", "));
+
+    return matches.length;
+}
