@@ -3,4 +3,4 @@ on: [push]
 jobs:
   tests:
     steps:
-      uses: willcaul/jest-github-action@v1.0.2
+      - uses: willcaul/jest-github-action@v1.0.2
