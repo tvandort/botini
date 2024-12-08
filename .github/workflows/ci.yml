@@ -1,0 +1,4 @@
+- name: CI
+  uses: willcaul/jest-github-action@v4
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
