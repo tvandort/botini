@@ -7,7 +7,7 @@ import {Keyv} from 'keyv';
 
 import memeJson from './memes.json' with {type: 'json'};
 import foodJson from './food.json' with {type: 'json'};
-import { fetchPastas } from './pasta';
+import { fetchPastas } from './pasta.js';
 
 const pastaJson = await fetchPastas();
 
