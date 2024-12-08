@@ -43,12 +43,24 @@ client.once(Events.ClientReady, readyClient => {
     });
 });
 
-function getMatchingStrings(stringToMatch, scoreMin = 0.4) {
+function getMatchingStrings(stringToMatch, scoreMin = 0.5) {
     // array of [score, matched_value] arrays
     const allMatchedPastas = fuzzyPastaSet.get(stringToMatch);
     const allMatchedMemes = fuzzyMemeSet.get(stringToMatch);
 
     const allMatchedStrings = {};
+
+    const highestScorePasta = allMatchedPastas?.reduce((maxItem, currentItem) =>
+        currentItem[0] > maxItem[0] ? currentItem : maxItem
+    )[0];
+
+    const highestScoreMeme = allMatchedMemes?.reduce((maxItem, currentItem) =>
+        currentItem[0] > maxItem[0] ? currentItem : maxItem
+    )[0];
+
+    if (highestScorePasta === 1 || highestScoreMeme === 1) {
+        return;
+    }
 
     if (allMatchedPastas) {
         allMatchedStrings.pastas = getMatchingStringsSort(allMatchedPastas, scoreMin);
@@ -101,24 +113,26 @@ client.on(Events.MessageCreate, async (message) => {
     const messageContentClean = content.substring(2, content.length - 2).toLowerCase().trim();
 
     if (messageContentClean.includes("taylor ham")) {
-        message.channel.send("YES SIR YES SIR THAT IS CORRECT!");
+        message.react('🤌');
+        message.channel.send("https://tenor.com/view/soprano-smile-happy-gif-14831229");
 
         return;
     } else if (messageContentClean.includes("pork roll")) {
-        message.channel.send("WRONG!");
+        message.react('🖕');
+        message.channel.send("https://tenor.com/view/sopranos-paulie-gualtieri-happy-smile-lol-gif-16139758");
 
         return;
     }
 
     const allFuzzyMatchingStrings = getMatchingStrings(messageContentClean);
 
-    if (allFuzzyMatchingStrings.pastas?.length) {
+    if (allFuzzyMatchingStrings?.pastas?.length) {
         message.channel.send(`Nonna asks if you meant any of the following: ${allFuzzyMatchingStrings.pastas}?`);
 
         return;
     }
 
-    if (allFuzzyMatchingStrings.memes?.length) {
+    if (allFuzzyMatchingStrings?.memes?.length) {
         message.channel.send(`Nonna asks if you meant any of the following: ${allFuzzyMatchingStrings.memes}?`);
 
         return;
@@ -156,24 +170,28 @@ client.on(Events.MessageCreate, async (message) => {
 
     const responseJson = await response.json();
 
-    if (!responseJson['thumbnail']) {
-        message.channel.send("Nonna says no thumbnail, sad!");
-
-        return;
+    let pastaPicture = '';
+    if (responseJson?.thumbnail) {
+        pastaPicture = responseJson.thumbnail['source'];
     }
 
-    const pastaPicture = responseJson['thumbnail']['source'];
-    const pastaDescription = responseJson['description'];
-    const pastaExtract = responseJson['extract'];
+    let pastaDescription = responseJson['description'];
+    let pastaExtract = responseJson['extract'];
+
+    // TODO FIX THIS
+    if (pastaDescription === 'Topics referred to by the same term') {
+        pastaDescription = responseJson['content_urls']['desktop']['page'];
+        pastaExtract = responseJson['content_urls']['mobile']['page'];
+    }
 
     const stuffToSend = pastaPicture + '\n\n' + pastaDescription + '\n\n' + pastaExtract;
 
     // TODO This probably has terrible performance
-    if (!stuffToSend.toLowerCase().includes("pasta")) {
-        message.channel.send("Nonna says you need to include pastas only!");
-
-        return;
-    }
+    // if (!stuffToSend.toLowerCase().includes("pasta")) {
+    //     message.channel.send("Nonna says you need to include pastas only!");
+    //
+    //     return;
+    // }
 
     console.log("Sending: " + stuffToSend);
     message.channel.send(stuffToSend);
