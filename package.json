@@ -30,7 +30,8 @@
     "restart": "pm2 restart index.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:ci": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "prettier": "prettier . --write"
+    "format": "prettier . --write",
+    "format:check": "prettier ."
   },
   "description": "A Discord bot to make Nonna proud!",
   "type": "module",
