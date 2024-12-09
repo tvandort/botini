@@ -14,12 +14,12 @@ jobs:
       - name: Run install
         uses: borales/actions-yarn@v4
         with:
-          cmd: install # will run `yarn install` command
+          cmd: install
 
       - name: Test the app
         uses: borales/actions-yarn@v4
         with:
-          cmd: test:ci # will run `yarn test` command
+          cmd: test:ci
 
       - name: Format Check
         uses: borales/actions-yarn@v4
