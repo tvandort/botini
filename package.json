@@ -18,7 +18,8 @@
     "eslint": "^9.16.0",
     "globals": "^15.13.0",
     "nodemon": "^3.1.7",
-    "pino-pretty": "^13.0.0"
+    "pino-pretty": "^13.0.0",
+    "prettier": "3.4.2"
   },
   "scripts": {
     "lint": "eslint .",
@@ -28,7 +29,8 @@
     "stop": "pm2 stop index.js",
     "restart": "pm2 restart index.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:ci": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test:ci": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "prettier": "prettier . --write"
   },
   "description": "A Discord bot to make Nonna proud!",
   "type": "module",

@@ -3,7 +3,7 @@ import fs from "node:fs";
 
 export async function fetchPastas() {
   const response = await fetch(
-    "https://en.wikipedia.org/api/rest_v1/page/html/List_of_pasta?redirect=true"
+    "https://en.wikipedia.org/api/rest_v1/page/html/List_of_pasta?redirect=true",
   );
   const text = await response.text();
   const root = parse(text);
