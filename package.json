@@ -31,7 +31,7 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:ci": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "format": "prettier . --write",
-    "format:check": "prettier ."
+    "format:check": "prettier . --check"
   },
   "description": "A Discord bot to make Nonna proud!",
   "type": "module",
