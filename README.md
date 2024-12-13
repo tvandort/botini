@@ -8,4 +8,19 @@ you [here](https://discordjs.guide/preparations/setting-up-a-bot-application.htm
 Nonna says to run `yarn install` for all the ~~ingredients~~ dependencies to install. Don't @ her with your npm
 garbagio.
 
-Finally, it is very important to `yarn start` at just the right temperature to "shape of Italy" the botini.
+Finally, it is very important to `yarn start` at just the right temperature to "shape of Italy" the Nonna bot.
+
+Permissions needed are:
+
+bot
+Send Messages
+Send Messages in Threads (Not in use but might be)
+Embed Links
+Read Message History
+Add Reactions
+Use Slash Commands (For the future)
+
+You also need to turn on the following in the Bot section of the Discord developers applications:
+
+Server Members Intent
+Message Content Intent

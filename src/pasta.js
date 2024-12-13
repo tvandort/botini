@@ -1,5 +1,4 @@
 import { parse } from "node-html-parser";
-import fs from "node:fs";
 
 export async function fetchPastas() {
   const response = await fetch(
