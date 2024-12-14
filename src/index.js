@@ -3,11 +3,11 @@ import { Client, Events, GatewayIntentBits } from "discord.js";
 import { pino } from "pino";
 import pretty from "pino-pretty";
 import FuzzySet from "fuzzyset";
-import { Keyv } from "keyv";
 
 import memeJson from "../data/memes.json" with { type: "json" };
 import foodJson from "../data/food.json" with { type: "json" };
 import pastaJson from "../data/pastas.json" with { type: "json" };
+import { isUserRateLimited } from "./rater-limiter.js";
 
 let logger;
 if (pretty.isColorSupported) {
@@ -35,9 +35,6 @@ memeJson.forEach((meme) => {
 const PASTA_SET = "PASTA_SET";
 const MEME_SET = "MEME_SET";
 
-const rateLimitWindow = 10 * 1000; // 10 second window in milliseconds
-const maxRequests = 5; // Allow 5 requests per user per window
-
 // eslint-disable-next-line no-undef
 if (!process.env.DISCORD_TOKEN) {
   logger.error("Error: Specify DISCORD_TOKEN in .env");
@@ -55,14 +52,13 @@ const client = new Client({
 });
 
 let textChannels;
-let keyv;
+
 // When the client is ready, run this code (only once).
 // The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
 // It makes some properties non-nullable.
 client.once(Events.ClientReady, (readyClient) => {
   logger.info(`Ready! Logged in as ${readyClient.user.tag}`);
 
-  keyv = new Keyv();
   textChannels = client.channels.cache
     .filter((channel) => {
       return channel.isTextBased() && channel.isSendable();
@@ -355,36 +351,4 @@ function findPastaRelatedItems(inputString) {
   logger.info("Found the following pasta-related items: ", matches.join(", "));
 
   return matches.length;
-}
-
-async function isUserRateLimited(username) {
-  const key = `rateLimit:${username}`;
-
-  // Retrieve the current request count and timestamp from Keyv
-  const data = await keyv.get(key);
-
-  const currentTime = Date.now();
-
-  if (data) {
-    const { count, lastRequestTime } = data;
-
-    if (currentTime - lastRequestTime > rateLimitWindow) {
-      await keyv.set(key, { count: 1, lastRequestTime: currentTime });
-
-      return true; // The request is allowed
-    }
-
-    if (count < maxRequests) {
-      await keyv.set(key, { count: count + 1, lastRequestTime });
-
-      return true; // The request is allowed
-    } else {
-      return false; // Exceeded the rate limit
-    }
-  } else {
-    // If no data exists, create new record
-    await keyv.set(key, { count: 1, lastRequestTime: currentTime });
-
-    return true; // The request is allowed
-  }
 }
