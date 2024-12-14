@@ -24,7 +24,7 @@
   "scripts": {
     "lint": "eslint .",
     "start": "nodemon src/index.js",
-    "update-pantry": "nodemon src/pasta.js",
+    "update:pantry": "node scripts/update-pantry.js",
     "production": "pm2 start index.js",
     "stop": "pm2 stop index.js",
     "restart": "pm2 restart index.js",

@@ -1,8 +1,8 @@
-import { fetchPastas } from "../src/pasta.js";
+import { fetchUncookedPastas, mapRawPastas } from "../src/pasta.js";
 import * as fs from "node:fs";
 
-const pastas = fetchPastas();
-const json = JSON.stringify(pastas, null, 2);
+const pastas = await fetchUncookedPastas();
+const json = JSON.stringify(mapRawPastas(pastas), null, 2);
 
 fs.writeFile("./data/pastas.json", json, (err) => {
   console.error(err);

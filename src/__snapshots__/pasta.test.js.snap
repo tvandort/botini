@@ -2,185 +2,725 @@
 
 exports[`pastas that the pasta list works 1`] = `
 [
-  "Barbine",
-  "Bavette",
-  "Bigoli",
-  "Bucatini",
-  "Busiate (or busiati)",
-  "Capellini",
-  "Fedelini",
-  "Ferrazzuoli",
-  "Fettuccine",
-  "Fileja",
-  "Lagane[25]",
-  "Lasagne",
-  "Lasagnette",
-  "Lasagnotte",
-  "Linguine",
-  "Maccheroni alla molinara",
-  "Maccheroncini di Campofilone",
-  "Mafalde",
-  "Matriciani",
-  "Pappardelle",
-  "Perciatelli",
-  "Picagge",
-  "Pici",
-  "Pillus",
-  "Rustiche",
-  "Sagne 'ncannulate",
-  "Scialatelli or scialatielli",
-  "Spaghetti",
-  "Spaghetti alla chitarra",
-  "Spaghettini",
-  "Spaghettoni",
-  "Stringozzi",
-  "Su Filindeu",
-  "Tagliatelle",
-  "Tagliolini",
-  "Trenette",
-  "Tripoline",
-  "Vermicelli",
-  "Ziti",
-  "Anelli",
-  "Boccoli",
-  "Calamarata",
-  "Campanelle or torchio",
-  "Cappelli da chef",
-  "Casarecce",
-  "Cascatelli",
-  "Castellane",
-  "Cavatappi",
-  "Cavatelli",
-  "Chifferi",
-  "Cicioneddos",
-  "Conchiglie",
-  "Creste di gallo",
-  "Fagioloni",
-  "Farfalle",
-  "Fazzoletti",
-  "Festoni",
-  "Fiorentine",
-  "Fiori",
-  "Fusilli",
-  "Fusilli bucati",
-  "Garganelli",
-  "Gemelli",
-  "Gnocchi",
-  "Gomiti",
-  "Lanterne",
-  "Lorighittas",
-  "Macaroni",
-  "Maccheroncelli",
-  "Mafaldine",
-  "Maltagliati",
-  "Malloreddus",
-  "Mandala",
-  "Marille",
-  "Mezzani",
-  "Mezze maniche",
-  "Mezze penne",
-  "Mezzi bombardoni",
-  "Nuvole",
-  "Paccheri",
-  "Passatelli",
-  "Pasta al ceppo",
-  "Penne",
-  "Penne ricce",
-  "Picchiarelli",
-  "Pipe rigate",
-  "Pizzoccheri",
-  "Quadrefiore",
-  "Radiatori",
-  "Riccioli",
-  "Ricciolini",
-  "Ricciutelle",
-  "Rigatoncini",
-  "Rigatoni",
-  "Rombi",
-  "Rotelle",
-  "Sagnette",
-  "Sagnarelli",
-  "Sedani",
-  "Spirali",
-  "Spiralini (Scharfalini)",
-  "Strapponi",
-  "Strozzapreti",
-  "Testaroli",
-  "Tortiglioni",
-  "Treccioni",
-  "Trenne",
-  "Trofie",
-  "Trottole",
-  "Tuffoli",
-  "Vesuvio",
-  "Cencioni",
-  "Corzetti",
-  "Fainelle",
-  "Foglie d'ulivo",
-  "Orecchiette",
-  "Acini di pepe",
-  "Alphabet pasta",
-  "Anchellini",
-  "Anelli",
-  "Anellini",
-  "Armonie",
-  "Conchigliette",
-  "Coquillettes",
-  "Coralli",
-  "Corallini",
-  "Cuscussu",
-  "Ditali",
-  "Egg barley",
-  "Farfalline",
-  "Fideos[126]",
-  "Filini",
-  "Fregula",
-  "Funghini",
-  "Gianduietta",
-  "Grano",
-  "Gramigna",
-  "Grattini",
-  "Grattoni",
-  "Margheritine",
-  "Merletti",
-  "Midolline",
-  "Occhi di passero",
-  "Occhi di pernice",
-  "Orzo",
-  "Pastina",
-  "Piombi",
-  "Ptitim",
-  "Puntine",
-  "Quadrettini",
-  "Sorprese",
-  "Stelle",
-  "Stortini",
-  "Tripolini",
-  "Agnolini",
-  "Agnolotti",
-  "Caccavelle",
-  "Cannelloni",
-  "Cappelletti",
-  "Caramelle",
-  "Casoncelli",
-  "Casunziei",
-  "Conchiglioni",
-  "Culurgioni",
-  "Fagottini",
-  "Lumache",
-  "Mezzelune",
-  "Occhi di lupo",
-  "Pansotti",
-  "Pavese agnolotti",
-  "Ravioli",
-  "Rotolo ripieno",
-  "Sacchettoni",
-  "Tortelli",
-  "Tortellini",
-  "Tortelloni",
-  "Tufoli",
-  "Canederli",
-  "Donderet",
-  "Gnocchi",
+  {
+    "text": "Barbine",
+    "url": "./Barbine",
+  },
+  {
+    "text": "Bavette",
+    "url": "./Bavette_(pasta)",
+  },
+  {
+    "text": "Bigoli",
+    "url": "./Bigoli",
+  },
+  {
+    "text": "Bucatini",
+    "url": "./Bucatini",
+  },
+  {
+    "text": "Busiate (or busiati)",
+    "url": "./Busiate",
+  },
+  {
+    "text": "Capellini",
+    "url": "./Capellini",
+  },
+  {
+    "text": "Fedelini",
+    "url": "./Fedelini?action=edit&redlink=1",
+  },
+  {
+    "text": "Ferrazzuoli",
+    "url": "./Ferrazzuoli?action=edit&redlink=1",
+  },
+  {
+    "text": "Fettuccine",
+    "url": "./Fettuccine",
+  },
+  {
+    "text": "Fileja",
+    "url": "./Fileja",
+  },
+  {
+    "text": "Lagane[25]",
+    "url": "./Lagane_e_cicciari",
+  },
+  {
+    "text": "Lasagne",
+    "url": "./Lasagne",
+  },
+  {
+    "text": "Lasagnette",
+    "url": "./Lasagnette",
+  },
+  {
+    "text": "Lasagnotte",
+    "url": "./Lasagnotte",
+  },
+  {
+    "text": "Linguine",
+    "url": "./Linguine",
+  },
+  {
+    "text": "Maccheroni alla molinara",
+    "url": "./Maccheroni_alla_molinara",
+  },
+  {
+    "text": "Maccheroncini di Campofilone",
+    "url": "./Maccheroncini_di_Campofilone?action=edit&redlink=1",
+  },
+  {
+    "text": "Mafalde",
+    "url": "./Mafalde",
+  },
+  {
+    "text": "Matriciani",
+    "url": "./Matriciani?action=edit&redlink=1",
+  },
+  {
+    "text": "Pappardelle",
+    "url": "./Pappardelle",
+  },
+  {
+    "text": "Perciatelli",
+    "url": "./Perciatelli",
+  },
+  {
+    "text": "Picagge",
+    "url": "./Picagge?action=edit&redlink=1",
+  },
+  {
+    "text": "Pici",
+    "url": "./Pici",
+  },
+  {
+    "text": "Pillus",
+    "url": "./Pillus",
+  },
+  {
+    "text": "Rustiche",
+    "url": "./Rustiche?action=edit&redlink=1",
+  },
+  {
+    "text": "Sagne 'ncannulate",
+    "url": "./Sagne_'ncannulate?action=edit&redlink=1",
+  },
+  {
+    "text": "Scialatelli or scialatielli",
+    "url": "./Scialatelli",
+  },
+  {
+    "text": "Spaghetti",
+    "url": "./Spaghetti",
+  },
+  {
+    "text": "Spaghetti alla chitarra",
+    "url": "./Spaghetti_alla_chitarra",
+  },
+  {
+    "text": "Spaghettini",
+    "url": "./Spaghettini",
+  },
+  {
+    "text": "Spaghettoni",
+    "url": "./Spaghettoni",
+  },
+  {
+    "text": "Stringozzi",
+    "url": "./Stringozzi",
+  },
+  {
+    "text": "Su Filindeu",
+    "url": "./Filindeu",
+  },
+  {
+    "text": "Tagliatelle",
+    "url": "./Tagliatelle",
+  },
+  {
+    "text": "Tagliolini",
+    "url": "./Tagliolini",
+  },
+  {
+    "text": "Trenette",
+    "url": "./Trenette",
+  },
+  {
+    "text": "Tripoline",
+    "url": "./Tripoline",
+  },
+  {
+    "text": "Vermicelli",
+    "url": "./Vermicelli",
+  },
+  {
+    "text": "Ziti",
+    "url": "./Ziti",
+  },
+  {
+    "text": "Anelli",
+    "url": "./Anelli",
+  },
+  {
+    "text": "Boccoli",
+    "url": "./Boccoli_(pasta)?action=edit&redlink=1",
+  },
+  {
+    "text": "Calamarata",
+    "url": "./Calamarata",
+  },
+  {
+    "text": "Campanelle or torchio",
+    "url": "./Campanelle",
+  },
+  {
+    "text": "Cappelli da chef",
+    "url": "./Cappelli_da_chef?action=edit&redlink=1",
+  },
+  {
+    "text": "Casarecce",
+    "url": "./Casarecce",
+  },
+  {
+    "text": "Cascatelli",
+    "url": "./Cascatelli",
+  },
+  {
+    "text": "Castellane",
+    "url": "./Castellane_(pasta)?action=edit&redlink=1",
+  },
+  {
+    "text": "Cavatappi",
+    "url": "./Cavatappi",
+  },
+  {
+    "text": "Cavatelli",
+    "url": "./Cavatelli",
+  },
+  {
+    "text": "Chifferi",
+    "url": "./Chifferi",
+  },
+  {
+    "text": "Cicioneddos",
+    "url": "./Cicioneddos?action=edit&redlink=1",
+  },
+  {
+    "text": "Conchiglie",
+    "url": "./Conchiglie",
+  },
+  {
+    "text": "Creste di gallo",
+    "url": "./Creste_di_gallo?action=edit&redlink=1",
+  },
+  {
+    "text": "Fagioloni",
+    "url": "./Fagioloni?action=edit&redlink=1",
+  },
+  {
+    "text": "Farfalle",
+    "url": "./Farfalle",
+  },
+  {
+    "text": "Fazzoletti",
+    "url": "./Fazzoletti?action=edit&redlink=1",
+  },
+  {
+    "text": "Festoni",
+    "url": "./Festoni?action=edit&redlink=1",
+  },
+  {
+    "text": "Fiorentine",
+    "url": "./Fiorentine?action=edit&redlink=1",
+  },
+  {
+    "text": "Fiori",
+    "url": "./Fiori_(pasta)",
+  },
+  {
+    "text": "Fusilli",
+    "url": "./Fusilli",
+  },
+  {
+    "text": "Fusilli bucati",
+    "url": "./Fusilli_bucati?action=edit&redlink=1",
+  },
+  {
+    "text": "Garganelli",
+    "url": "./Garganelli",
+  },
+  {
+    "text": "Gemelli",
+    "url": "./Gemelli_pasta",
+  },
+  {
+    "text": "Gnocchi",
+    "url": "./Gnocchi_(pasta)?action=edit&redlink=1",
+  },
+  {
+    "text": "Gomiti",
+    "url": "./Gomiti?action=edit&redlink=1",
+  },
+  {
+    "text": "Lanterne",
+    "url": "./Lanterne_(pasta)",
+  },
+  {
+    "text": "Lorighittas",
+    "url": "./Lorighittas",
+  },
+  {
+    "text": "Macaroni",
+    "url": "./Macaroni",
+  },
+  {
+    "text": "Maccheroncelli",
+    "url": "./Maccheroncelli?action=edit&redlink=1",
+  },
+  {
+    "text": "Mafaldine",
+    "url": "./Mafaldine",
+  },
+  {
+    "text": "Maltagliati",
+    "url": "./Maltagliati",
+  },
+  {
+    "text": "Malloreddus",
+    "url": "./Malloreddus",
+  },
+  {
+    "text": "Mandala",
+    "url": "./Mandala_(pasta)?action=edit&redlink=1",
+  },
+  {
+    "text": "Marille",
+    "url": "./Marille?action=edit&redlink=1",
+  },
+  {
+    "text": "Mezzani",
+    "url": "./Mezzani_(pasta)",
+  },
+  {
+    "text": "Mezze maniche",
+    "url": "./Mezze_maniche?action=edit&redlink=1",
+  },
+  {
+    "text": "Mezze penne",
+    "url": "./Mezze_penne?action=edit&redlink=1",
+  },
+  {
+    "text": "Mezzi bombardoni",
+    "url": "./Mezzi_bombardoni?action=edit&redlink=1",
+  },
+  {
+    "text": "Nuvole",
+    "url": "./Nuvole?action=edit&redlink=1",
+  },
+  {
+    "text": "Paccheri",
+    "url": "./Paccheri",
+  },
+  {
+    "text": "Passatelli",
+    "url": "./Passatelli",
+  },
+  {
+    "text": "Pasta al ceppo",
+    "url": "./Pasta_al_ceppo?action=edit&redlink=1",
+  },
+  {
+    "text": "Penne",
+    "url": "./Penne",
+  },
+  {
+    "text": "Penne ricce",
+    "url": "./Penne_ricce?action=edit&redlink=1",
+  },
+  {
+    "text": "Picchiarelli",
+    "url": "./Picchiarelli?action=edit&redlink=1",
+  },
+  {
+    "text": "Pipe rigate",
+    "url": "./Pipe_rigate?action=edit&redlink=1",
+  },
+  {
+    "text": "Pizzoccheri",
+    "url": "./Pizzoccheri",
+  },
+  {
+    "text": "Quadrefiore",
+    "url": "./Quadrefiore?action=edit&redlink=1",
+  },
+  {
+    "text": "Radiatori",
+    "url": "./Radiatori",
+  },
+  {
+    "text": "Riccioli",
+    "url": "./Riccioli_(pasta)?action=edit&redlink=1",
+  },
+  {
+    "text": "Ricciolini",
+    "url": "./Ricciolini?action=edit&redlink=1",
+  },
+  {
+    "text": "Ricciutelle",
+    "url": "./Ricciutelle?action=edit&redlink=1",
+  },
+  {
+    "text": "Rigatoncini",
+    "url": "./Rigatoncini",
+  },
+  {
+    "text": "Rigatoni",
+    "url": "./Rigatoni",
+  },
+  {
+    "text": "Rombi",
+    "url": "./Rombi?action=edit&redlink=1",
+  },
+  {
+    "text": "Rotelle",
+    "url": "./Rotelle",
+  },
+  {
+    "text": "Sagnette",
+    "url": "./Sagnette?action=edit&redlink=1",
+  },
+  {
+    "text": "Sagnarelli",
+    "url": "./Sagnarelli",
+  },
+  {
+    "text": "Sedani",
+    "url": "./Sedani",
+  },
+  {
+    "text": "Spirali",
+    "url": "./Spirali?action=edit&redlink=1",
+  },
+  {
+    "text": "Spiralini (Scharfalini)",
+    "url": "./Spiralini?action=edit&redlink=1",
+  },
+  {
+    "text": "Strapponi",
+    "url": "./Strapponi?action=edit&redlink=1",
+  },
+  {
+    "text": "Strozzapreti",
+    "url": "./Strozzapreti",
+  },
+  {
+    "text": "Testaroli",
+    "url": "./Testaroli",
+  },
+  {
+    "text": "Tortiglioni",
+    "url": "./Tortiglioni",
+  },
+  {
+    "text": "Treccioni",
+    "url": "./Treccioni?action=edit&redlink=1",
+  },
+  {
+    "text": "Trenne",
+    "url": "./Trenne?action=edit&redlink=1",
+  },
+  {
+    "text": "Trofie",
+    "url": "./Trofie",
+  },
+  {
+    "text": "Trottole",
+    "url": "./Trottole?action=edit&redlink=1",
+  },
+  {
+    "text": "Tuffoli",
+    "url": "./Tuffoli?action=edit&redlink=1",
+  },
+  {
+    "text": "Vesuvio",
+    "url": "./Vesuvio_(pasta)?action=edit&redlink=1",
+  },
+  {
+    "text": "Cencioni",
+    "url": "./Cencioni",
+  },
+  {
+    "text": "Corzetti",
+    "url": "./Corzetti",
+  },
+  {
+    "text": "Fainelle",
+    "url": "./Fainelle?action=edit&redlink=1",
+  },
+  {
+    "text": "Foglie d'ulivo",
+    "url": "./Foglie_d'ulivo",
+  },
+  {
+    "text": "Orecchiette",
+    "url": "./Orecchiette",
+  },
+  {
+    "text": "Acini di pepe",
+    "url": "./Acini_di_pepe",
+  },
+  {
+    "text": "Alphabet pasta",
+    "url": "./Alphabet_pasta",
+  },
+  {
+    "text": "Anchellini",
+    "url": "./Anchellini?action=edit&redlink=1",
+  },
+  {
+    "text": "Anelli",
+    "url": "./Anelli",
+  },
+  {
+    "text": "Anellini",
+    "url": "./Anellini",
+  },
+  {
+    "text": "Armonie",
+    "url": "./Armonie?action=edit&redlink=1",
+  },
+  {
+    "text": "Conchigliette",
+    "url": "./Conchigliette",
+  },
+  {
+    "text": "Coquillettes",
+    "url": "./Coquillettes?action=edit&redlink=1",
+  },
+  {
+    "text": "Coralli",
+    "url": "./Coralli_(pasta)?action=edit&redlink=1",
+  },
+  {
+    "text": "Corallini",
+    "url": "./Corallini?action=edit&redlink=1",
+  },
+  {
+    "text": "Cuscussu",
+    "url": "./Cuscussu?action=edit&redlink=1",
+  },
+  {
+    "text": "Ditali",
+    "url": "./Ditalini",
+  },
+  {
+    "text": "Egg barley",
+    "url": "./Egg_barley",
+  },
+  {
+    "text": "Farfalline",
+    "url": "./Farfalline",
+  },
+  {
+    "text": "Fideos[126]",
+    "url": "./List_of_noodle_dishes#Spanish",
+  },
+  {
+    "text": "Filini",
+    "url": "./Filini?action=edit&redlink=1",
+  },
+  {
+    "text": "Fregula",
+    "url": "./Fregula",
+  },
+  {
+    "text": "Funghini",
+    "url": "./Funghini?action=edit&redlink=1",
+  },
+  {
+    "text": "Gianduietta",
+    "url": "./Gianduietta?action=edit&redlink=1",
+  },
+  {
+    "text": "Grano",
+    "url": "./Grano_(pasta)?action=edit&redlink=1",
+  },
+  {
+    "text": "Gramigna",
+    "url": "./Gramigna_(pasta)?action=edit&redlink=1",
+  },
+  {
+    "text": "Grattini",
+    "url": "./Grattini?action=edit&redlink=1",
+  },
+  {
+    "text": "Grattoni",
+    "url": "./Grattoni?action=edit&redlink=1",
+  },
+  {
+    "text": "Margheritine",
+    "url": "./Margerthine?action=edit&redlink=1",
+  },
+  {
+    "text": "Merletti",
+    "url": "./Merletti?action=edit&redlink=1",
+  },
+  {
+    "text": "Midolline",
+    "url": "./Midolline?action=edit&redlink=1",
+  },
+  {
+    "text": "Occhi di passero",
+    "url": "./Occhi_di_passero?action=edit&redlink=1",
+  },
+  {
+    "text": "Occhi di pernice",
+    "url": "./Occhi_di_pernice_(pasta)?action=edit&redlink=1",
+  },
+  {
+    "text": "Orzo",
+    "url": "./Orzo_(pasta)",
+  },
+  {
+    "text": "Pastina",
+    "url": "./Pastina",
+  },
+  {
+    "text": "Piombi",
+    "url": "./Piombi_(pasta)?action=edit&redlink=1",
+  },
+  {
+    "text": "Ptitim",
+    "url": "./Ptitim",
+  },
+  {
+    "text": "Puntine",
+    "url": "./Puntine?action=edit&redlink=1",
+  },
+  {
+    "text": "Quadrettini",
+    "url": "./Quadrettini?action=edit&redlink=1",
+  },
+  {
+    "text": "Sorprese",
+    "url": "./Sorprese?action=edit&redlink=1",
+  },
+  {
+    "text": "Stelle",
+    "url": "./Stelle_(pasta)",
+  },
+  {
+    "text": "Stortini",
+    "url": "./Stortini?action=edit&redlink=1",
+  },
+  {
+    "text": "Tripolini",
+    "url": "./Tripolini?action=edit&redlink=1",
+  },
+  {
+    "text": "Agnolini",
+    "url": "./Agnolini",
+  },
+  {
+    "text": "Agnolotti",
+    "url": "./Agnolotti",
+  },
+  {
+    "text": "Caccavelle",
+    "url": "./Caccavelle",
+  },
+  {
+    "text": "Cannelloni",
+    "url": "./Cannelloni",
+  },
+  {
+    "text": "Cappelletti",
+    "url": "./Cappelletti_(pasta)",
+  },
+  {
+    "text": "Caramelle",
+    "url": "./Caramelle_(pasta)?action=edit&redlink=1",
+  },
+  {
+    "text": "Casoncelli",
+    "url": "./Casoncelli",
+  },
+  {
+    "text": "Casunziei",
+    "url": "./Casunziei",
+  },
+  {
+    "text": "Conchiglioni",
+    "url": "./Conchiglioni?action=edit&redlink=1",
+  },
+  {
+    "text": "Culurgioni",
+    "url": "./Culurgiones",
+  },
+  {
+    "text": "Fagottini",
+    "url": "./Fagottini",
+  },
+  {
+    "text": "Lumache",
+    "url": "./Lumache?action=edit&redlink=1",
+  },
+  {
+    "text": "Mezzelune",
+    "url": "./Mezzelune",
+  },
+  {
+    "text": "Occhi di lupo",
+    "url": "./Occhi_di_Lupo",
+  },
+  {
+    "text": "Pansotti",
+    "url": "./Pansoti",
+  },
+  {
+    "text": "Pavese agnolotti",
+    "url": "./Pavese_agnolotti",
+  },
+  {
+    "text": "Ravioli",
+    "url": "./Ravioli",
+  },
+  {
+    "text": "Rotolo ripieno",
+    "url": "./Rotolo_ripieno?action=edit&redlink=1",
+  },
+  {
+    "text": "Sacchettoni",
+    "url": "./Sacchettoni",
+  },
+  {
+    "text": "Tortelli",
+    "url": "./Tortelli",
+  },
+  {
+    "text": "Tortellini",
+    "url": "./Tortellini",
+  },
+  {
+    "text": "Tortelloni",
+    "url": "./Tortelloni",
+  },
+  {
+    "text": "Tufoli",
+    "url": "./Tufoli?action=edit&redlink=1",
+  },
+  {
+    "text": "Canederli",
+    "url": "./Canederli",
+  },
+  {
+    "text": "Donderet",
+    "url": "./Donderet?action=edit&redlink=1",
+  },
+  {
+    "text": "Gnocchi",
+    "url": "./Gnocchi",
+  },
 ]
 `;
