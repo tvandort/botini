@@ -1,27 +1,16 @@
 import "dotenv/config";
 import { Client, Events, GatewayIntentBits } from "discord.js";
-import { pino } from "pino";
-import pretty from "pino-pretty";
+
 import FuzzySet from "fuzzyset";
 
 import memeJson from "../data/memes.json" with { type: "json" };
 import foodJson from "../data/food.json" with { type: "json" };
 import pastaJson from "../data/pastas.json" with { type: "json" };
-import { isUserRateLimited } from "./rater-limiter.js";
+import { RateLimiter } from "./rater-limiter.js";
+import { Logger } from "./logger.js";
 
-let logger;
-if (pretty.isColorSupported) {
-  logger = pino({
-    transport: {
-      target: "pino-pretty",
-      options: {
-        colorize: true,
-      },
-    },
-  });
-} else {
-  logger = pino();
-}
+const logger = new Logger();
+const rateLimiter = new RateLimiter();
 
 const fuzzyPastaSet = FuzzySet();
 pastaJson.forEach((pasta) => {
@@ -163,7 +152,7 @@ function capitalize(stringToCapitalize) {
 
 // TODO Handle non-wikipedia
 async function makeRequest(searchTerm, usernameMakingRequest) {
-  const isAllowed = await isUserRateLimited(usernameMakingRequest);
+  const isAllowed = await rateLimiter.isUserRateLimited(usernameMakingRequest);
 
   if (!isAllowed) {
     logger.warn(`${usernameMakingRequest} has exceeded their rate limit`);
