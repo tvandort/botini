@@ -1,3 +1,4 @@
+import FuzzySet from "fuzzyset";
 import { parse } from "node-html-parser";
 
 /**
@@ -64,5 +65,23 @@ export function transformRawPasta(pastasTitle) {
 }
 
 export function mapRawPastas(pastas) {
-  return pastas.map((pasta) => pasta.text).flatMap(transformRawPasta);
+  console.log(pastas);
+  const transformed = pastas.map((pasta) => ({
+    ...pasta,
+    names: transformRawPasta(pasta.text),
+  }));
+
+  const allNames = [];
+  const dictionary = {};
+  for (let pasta of transformed) {
+    for (let name of pasta.names) {
+      allNames.push(name);
+      dictionary[name] = pasta;
+    }
+  }
+
+  return {
+    allNames,
+    dictionary,
+  };
 }

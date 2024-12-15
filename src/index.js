@@ -8,14 +8,13 @@ import foodJson from "../data/food.json" with { type: "json" };
 import pastaJson from "../data/pastas.json" with { type: "json" };
 import { RateLimiter } from "./rater-limiter.js";
 import { Logger } from "./logger.js";
+import { mapRawPastas } from "./pasta.js";
 
 const logger = new Logger();
 const rateLimiter = new RateLimiter();
+const pastaData = mapRawPastas(pastaJson);
 
-const fuzzyPastaSet = FuzzySet();
-pastaJson.forEach((pasta) => {
-  fuzzyPastaSet.add(pasta.toLowerCase());
-});
+const fuzzyPastaSet = FuzzySet({ source: pastaData.allNames });
 const fuzzyMemeSet = FuzzySet();
 memeJson.forEach((meme) => {
   fuzzyMemeSet.add(meme.toLowerCase());

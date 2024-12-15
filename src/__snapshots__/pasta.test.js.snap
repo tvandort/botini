@@ -1,5 +1,76 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`pastas mapRawPastas 1`] = `
+{
+  "allNames": [
+    "Penne",
+    "Spiralini",
+    "Scharfalini",
+    "Busiate",
+    "busiati",
+    "Campanelle",
+    "torchio",
+  ],
+  "dictionary": {
+    "Busiate": {
+      "names": [
+        "Busiate",
+        "busiati",
+      ],
+      "text": "Busiate (or busiati)",
+      "url": "/wiki/3",
+    },
+    "Campanelle": {
+      "names": [
+        "Campanelle",
+        "torchio",
+      ],
+      "text": "Campanelle or torchio",
+      "url": "/wiki/4",
+    },
+    "Penne": {
+      "names": [
+        "Penne",
+      ],
+      "text": "Penne[123]",
+      "url": "/wiki/1",
+    },
+    "Scharfalini": {
+      "names": [
+        "Spiralini",
+        "Scharfalini",
+      ],
+      "text": "Spiralini (Scharfalini)",
+      "url": "/wiki/2",
+    },
+    "Spiralini": {
+      "names": [
+        "Spiralini",
+        "Scharfalini",
+      ],
+      "text": "Spiralini (Scharfalini)",
+      "url": "/wiki/2",
+    },
+    "busiati": {
+      "names": [
+        "Busiate",
+        "busiati",
+      ],
+      "text": "Busiate (or busiati)",
+      "url": "/wiki/3",
+    },
+    "torchio": {
+      "names": [
+        "Campanelle",
+        "torchio",
+      ],
+      "text": "Campanelle or torchio",
+      "url": "/wiki/4",
+    },
+  },
+}
+`;
+
 exports[`pastas that the pasta list works 1`] = `
 [
   {

@@ -33,24 +33,14 @@ describe("pastas", () => {
     });
   });
 
-  describe("mapRawPastas", () => {
-    test("maps raw pastas", () => {
-      const pastas = [
-        { text: "Penne[123]" },
-        { text: "Spiralini (Scharfalini)" },
-        { text: "Busiate (or busiati)" },
-        { text: "Campanelle or torchio" },
-      ];
+  test("mapRawPastas", () => {
+    const pastas = [
+      { text: "Penne[123]", url: "/wiki/1" },
+      { text: "Spiralini (Scharfalini)", url: "/wiki/2" },
+      { text: "Busiate (or busiati)", url: "/wiki/3" },
+      { text: "Campanelle or torchio", url: "/wiki/4" },
+    ];
 
-      expect(mapRawPastas(pastas)).toStrictEqual([
-        "Penne",
-        "Spiralini",
-        "Scharfalini",
-        "Busiate",
-        "busiati",
-        "Campanelle",
-        "torchio",
-      ]);
-    });
+    expect(mapRawPastas(pastas)).toMatchSnapshot();
   });
 });
