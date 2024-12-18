@@ -2,7 +2,7 @@ import { pino } from "pino";
 import pretty from "pino-pretty";
 
 export function Logger() {
-  if (pretty.isColorSupported) {
+  if ((pretty as any).isColorSupported) {
     return pino({
       transport: {
         target: "pino-pretty",

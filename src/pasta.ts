@@ -1,4 +1,3 @@
-import FuzzySet from "fuzzyset";
 import { parse } from "node-html-parser";
 
 /**
@@ -20,7 +19,7 @@ export async function fetchUncookedPastas(revision = 1259032650) {
 
   const pastas = [];
   for (const table of tables) {
-    const rows = table.querySelector("tbody").querySelectorAll("tr");
+    const rows = table?.querySelector("tbody")?.querySelectorAll("tr") ?? [];
     for (let rowIndex = 1; rowIndex < rows.length; rowIndex++) {
       const row = rows[rowIndex];
       pastas.push({
@@ -39,12 +38,12 @@ const leadingOr = /^or\s/;
 const betweenOr = /\sor\s/;
 
 // surely this should be transformUncookedPasta
-export function transformRawPasta(pastasTitle) {
+export function transformRawPasta(pastasTitle: string) {
   const pastas = [];
 
   if (parenthetical.test(pastasTitle)) {
     pastas.push(pastasTitle.replace(parenthetical, ""));
-    const matches = parenthetical.exec(pastasTitle);
+    const matches = parenthetical.exec(pastasTitle) ?? [];
     for (let match of matches) {
       pastas.push(match);
     }
@@ -64,15 +63,16 @@ export function transformRawPasta(pastasTitle) {
     );
 }
 
-export function mapRawPastas(pastas) {
-  console.log(pastas);
+export function mapRawPastas(
+  pastas: Awaited<ReturnType<typeof fetchUncookedPastas>>,
+) {
   const transformed = pastas.map((pasta) => ({
     ...pasta,
     names: transformRawPasta(pasta.text),
   }));
 
   const allNames = [];
-  const dictionary = {};
+  const dictionary: Record<string, {}> = {};
   for (let pasta of transformed) {
     for (let name of pasta.names) {
       allNames.push(name);
