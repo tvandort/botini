@@ -666,7 +666,7 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@keyv/serialize@*":
+"@keyv/serialize@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@keyv/serialize/-/serialize-1.0.1.tgz#8dae240d5fe11c589e38b73a2db238dcf26a33cf"
   integrity sha512-kKXeynfORDGPUEEl2PvTExM2zs+IldC6ZD8jPcfvI351MDNtfMlw9V9s4XZXuJNDK2qR5gbEKxRyoYx3quHUVQ==
@@ -2538,12 +2538,12 @@ keyv@^4.5.4:
   dependencies:
     json-buffer "3.0.1"
 
-keyv@^5.2.1:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/keyv/-/keyv-5.2.1.tgz#908612ecdd8491927fdf38417692777669b87277"
-  integrity sha512-tpIgCaY02VCW2Pz0zAn4guyct+IeH6Mb5wZdOvpe4oqXeQOJO0C3Wo8fTnf7P3ZD83Vr9kghbkNmzG3lTOhy/A==
+keyv@^5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/keyv/-/keyv-5.2.2.tgz#5909eac90c76c4296921d964ab233e5590326bfa"
+  integrity sha512-CRPP4Sq5ofbUE8s4FOirFmDgHeKZFRrH/8+WOUNvLJiMIplRMfnMjxmbaDb+zVd7ex0gGAWqMhZHfcL2u6PrNQ==
   dependencies:
-    "@keyv/serialize" "*"
+    "@keyv/serialize" "^1.0.1"
 
 kleur@^3.0.3:
   version "3.0.3"
