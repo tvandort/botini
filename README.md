@@ -10,14 +10,14 @@ garbagio.
 
 Finally, it is very important to `yarn start` at just the right temperature to "shape of Italy" the Nonna bot.
 
-
-# Discord Setup 
+# Discord Setup
 
 ## These instructions are relevant once you make a discord application.
 
 ### Start from discord.com/developers/applications/<ID_OF_YOUR_APP_HERE>
 
 ### Installation tab:
+
 - Guild Install should be checked and User Install unchecked (Probably doesn't really matter tbh)
 - Install Link set to None
 
