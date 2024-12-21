@@ -1,5 +1,7 @@
 name: CI
 on: [push]
+permissions:
+  contents: read
 jobs:
   main:
     name: Yarn Commands
@@ -12,16 +14,16 @@ jobs:
           node-version: 22.12
 
       - name: Run install
-        uses: borales/actions-yarn@v4
+        uses: borales/actions-yarn@3766bb1335b98fb13c60eaf358fe20811b730a88 #v5
         with:
           cmd: install
 
       - name: Test the app
-        uses: borales/actions-yarn@v4
+        uses: borales/actions-yarn@3766bb1335b98fb13c60eaf358fe20811b730a88 #v5
         with:
           cmd: test:ci
 
       - name: Format Check
-        uses: borales/actions-yarn@v4
+        uses: borales/actions-yarn@3766bb1335b98fb13c60eaf358fe20811b730a88 #v5
         with:
           cmd: format:check

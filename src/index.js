@@ -176,7 +176,7 @@ async function makeRequest(searchTerm, usernameMakingRequest) {
   }
 
   const uriEncodedPasta = encodeURIComponent(searchTerm);
-  const spaceReplacedUri = uriEncodedPasta.replace("%20", "_");
+  const spaceReplacedUri = uriEncodedPasta.replace("/%20/g", "_");
 
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
