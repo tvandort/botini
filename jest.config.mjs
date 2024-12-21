@@ -194,7 +194,7 @@ const config = {
   // Whether to use watchman for file crawling
   // watchman: true,
 
-  prettierPath: null
+  prettierPath: null,
 };
 
 export default config;
