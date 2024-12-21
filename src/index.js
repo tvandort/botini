@@ -213,7 +213,7 @@ client.on(Events.MessageCreate, async (message) => {
   if (!textChannels.includes(message.channelId)) return;
 
   if (message.author.username.toLowerCase() === "mercer_less") {
-    message.react("🤌");
+    await message.react("🤌");
   }
 
   const content = message.content;
@@ -229,14 +229,16 @@ client.on(Events.MessageCreate, async (message) => {
     .trim();
 
   if (messageContentClean.includes("taylor ham")) {
-    message.react("🤌");
+    await message.react("🤌");
+
     message.channel.send(
       "https://tenor.com/view/soprano-smile-happy-gif-14831229",
     );
 
     return;
   } else if (messageContentClean.includes("pork roll")) {
-    message.react("🖕");
+    await message.react("🖕");
+
     message.channel.send(
       "https://tenor.com/view/sopranos-paulie-gualtieri-happy-smile-lol-gif-16139758",
     );
@@ -306,7 +308,6 @@ client.on(Events.MessageCreate, async (message) => {
     "\n\n" +
     wikipediaArticleExtract;
 
-  // TODO This probably has terrible performance
   if (findPastaRelatedItems(stuffToSend) > 0) {
     message.channel.send("Nonna says you need to include pasta only!");
 
