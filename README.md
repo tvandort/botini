@@ -10,17 +10,28 @@ garbagio.
 
 Finally, it is very important to `yarn start` at just the right temperature to "shape of Italy" the Nonna bot.
 
-Permissions needed are:
 
-bot
-Send Messages
-Send Messages in Threads (Not in use but might be)
-Embed Links
-Read Message History
-Add Reactions
-Use Slash Commands (For the future)
+# Discord Setup 
 
-You also need to turn on the following in the Bot section of the Discord developers applications:
+## These instructions are relevant once you make a discord application.
 
-Server Members Intent
-Message Content Intent
+### Start from discord.com/developers/applications/<ID_OF_YOUR_APP_HERE>
+
+### Installation tab:
+- Guild Install should be checked and User Install unchecked (Probably doesn't really matter tbh)
+- Install Link set to None
+
+### OAuth2 tab:
+
+- bot
+  - Send Messages
+  - Send Messages in Threads (Not in use but might be)
+  - Embed Links
+  - Read Message History
+  - Add Reactions
+  - Use Slash Commands (For the future)
+
+### Bot tab:
+
+- Server Members Intent enabled
+- Message Content Intent enabled
