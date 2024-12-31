@@ -4,7 +4,7 @@ const rateLimitWindow = 10 * 1000; // 10 second window in milliseconds
 const maxRequests = 5; // Allow 5 requests per user per window
 
 export class RateLimiter {
-  #keyv: Keyv<any>;
+  #keyv: Keyv<{ count: number; lastRequestTime: number }>;
 
   constructor() {
     this.#keyv = new Keyv();

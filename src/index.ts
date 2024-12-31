@@ -12,8 +12,11 @@ import { mapRawPastas } from "./pasta.js";
 import { ensureEnv } from "./env";
 import { capitalize } from "./capitalize";
 
+interface HasMessage {
+  message: string;
+}
+
 const logger = getLogger();
-// eslint-disable-next-line no-undef
 ensureEnv({ logger });
 
 const rateLimiter = new RateLimiter();
@@ -57,7 +60,7 @@ function getMatchingStrings(
 ) {
   logger.info(`SETS MATCHING ON: ${setsToCheck.join(", ")}`);
   // Comma separated list of strings to suggest
-  const allMatchedStrings: { pastas: any; memes: any } = {
+  const allMatchedStrings: { pastas: string[]; memes: string[] } = {
     pastas: [],
     memes: [],
   };
@@ -199,16 +202,14 @@ client.on(Events.MessageCreate, async (message) => {
 
   if (messageContentClean.includes("taylor ham")) {
     await message.react("🤌");
-
-    message.channel.send(
+    await message.channel.send(
       "https://tenor.com/view/soprano-smile-happy-gif-14831229",
     );
 
     return;
   } else if (messageContentClean.includes("pork roll")) {
     await message.react("🖕");
-
-    message.channel.send(
+    await message.channel.send(
       "https://tenor.com/view/sopranos-paulie-gualtieri-happy-smile-lol-gif-16139758",
     );
 
@@ -219,7 +220,7 @@ client.on(Events.MessageCreate, async (message) => {
   const allFuzzyMatchingStrings = getMatchingStrings(messageContentClean);
 
   if (allFuzzyMatchingStrings?.pastas?.length) {
-    message.channel.send(
+    await message.channel.send(
       `Nonna asks if you meant any of the following: ${allFuzzyMatchingStrings.pastas}?`,
     );
 
@@ -227,7 +228,7 @@ client.on(Events.MessageCreate, async (message) => {
   }
 
   if (allFuzzyMatchingStrings?.memes?.length) {
-    message.channel.send(
+    await message.channel.send(
       `Nonna asks if you meant any of the following: ${allFuzzyMatchingStrings.memes}?`,
     );
 
@@ -248,7 +249,7 @@ client.on(Events.MessageCreate, async (message) => {
         );
         break;
       default:
-        message.channel.send((error as any).message);
+        await message.channel.send((error as HasMessage).message);
         break;
     }
 
@@ -278,16 +279,15 @@ client.on(Events.MessageCreate, async (message) => {
     wikipediaArticleExtract;
 
   if (findPastaRelatedItems(stuffToSend) > 0) {
-    message.channel.send("Nonna says you need to include pasta only!");
+    await message.channel.send("Nonna says you need to include pasta only!");
 
     return;
   }
 
   logger.info(`Sending: ${stuffToSend}`);
-  message.channel.send(stuffToSend);
+  await message.channel.send(stuffToSend);
 });
 
-// eslint-disable-next-line no-undef
 client.login(process.env.DISCORD_TOKEN).then(() => logger.info("Logged in!"));
 
 class RequestNotFoundError extends Error {
@@ -315,7 +315,7 @@ function findPastaRelatedItems(inputString: string) {
   const lowerCaseInput = inputString.toLowerCase();
   const matches = [];
 
-  for (let item of foodJson) {
+  for (const item of foodJson) {
     if (lowerCaseInput.includes(item.toLowerCase())) {
       matches.push(item);
     }

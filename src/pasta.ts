@@ -17,7 +17,7 @@ export async function fetchUncookedPastas(revision = 1259032650) {
     tables.push(caption.closest("table"));
   }
 
-  const pastas = [];
+  const pastas: { text: string; url: string }[] = [];
   for (const table of tables) {
     const rows = table?.querySelector("tbody")?.querySelectorAll("tr") ?? [];
     for (let rowIndex = 1; rowIndex < rows.length; rowIndex++) {
@@ -44,11 +44,11 @@ export function transformRawPasta(pastasTitle: string) {
   if (parenthetical.test(pastasTitle)) {
     pastas.push(pastasTitle.replace(parenthetical, ""));
     const matches = parenthetical.exec(pastasTitle) ?? [];
-    for (let match of matches) {
+    for (const match of matches) {
       pastas.push(match);
     }
   } else if (betweenOr.test(pastasTitle)) {
-    for (let pasta of pastasTitle.split(betweenOr)) {
+    for (const pasta of pastasTitle.split(betweenOr)) {
       pastas.push(pasta);
     }
   } else {
@@ -72,9 +72,12 @@ export function mapRawPastas(
   }));
 
   const allNames = [];
-  const dictionary: Record<string, {}> = {};
-  for (let pasta of transformed) {
-    for (let name of pasta.names) {
+  const dictionary: Record<
+    string,
+    { names: string[]; text: string; url: string }
+  > = {};
+  for (const pasta of transformed) {
+    for (const name of pasta.names) {
       allNames.push(name);
       dictionary[name] = pasta;
     }
