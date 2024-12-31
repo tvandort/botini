@@ -14,7 +14,7 @@ import { capitalize } from "./capitalize";
 
 const logger = getLogger();
 // eslint-disable-next-line no-undef
-ensureEnv(logger);
+ensureEnv({ logger });
 
 const rateLimiter = new RateLimiter();
 const pastaData = mapRawPastas(pastaJson);
