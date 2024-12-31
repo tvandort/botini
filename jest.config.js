@@ -2,6 +2,8 @@
 export default {
   testEnvironment: "node",
   transform: {
-    "^.+\\.(ts|tsx)$": "ts-jest",
+    "^.+\\.((t|j)s|(t|j)sx)$": "ts-jest",
   },
+  moduleFileExtensions: ["js", "ts", "json"],
+  testPathIgnorePatterns: ["dist"],
 };
