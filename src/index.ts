@@ -177,7 +177,6 @@ async function makeRequest(searchTerm: string, usernameMakingRequest: string) {
 client.on(Events.MessageCreate, async (message) => {
   if (message.author.bot) return;
 
-  // if (!textChannels.includes(message.channelId)) return;
   if (!message.channel.isSendable() || !message.channel.isTextBased()) {
     return;
   }
