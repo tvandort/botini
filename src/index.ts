@@ -10,6 +10,7 @@ import { RateLimiter } from "./rater-limiter.js";
 import { getLogger } from "./logger.js";
 import { mapRawPastas } from "./pasta.js";
 import { ensureEnv } from "./env";
+import { capitalize } from "./capitalize";
 
 const logger = getLogger();
 // eslint-disable-next-line no-undef
@@ -129,17 +130,6 @@ function getMatchingStringsSorted(
       return capitalize(thing[1]);
     })
     .join(", ");
-}
-
-function capitalize(stringToCapitalize: string) {
-  if (!stringToCapitalize?.length) {
-    return;
-  }
-
-  return (
-    String(stringToCapitalize[0]).toUpperCase() +
-    String(stringToCapitalize).slice(1)
-  );
 }
 
 // TODO Handle non-wikipedia
