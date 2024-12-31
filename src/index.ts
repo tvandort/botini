@@ -9,8 +9,12 @@ import pastaJson from "../data/pastas.json";
 import { RateLimiter } from "./rater-limiter.js";
 import { getLogger } from "./logger.js";
 import { mapRawPastas } from "./pasta.js";
+import { ensureEnv } from "./env";
 
 const logger = getLogger();
+// eslint-disable-next-line no-undef
+ensureEnv(logger);
+
 const rateLimiter = new RateLimiter();
 const pastaData = mapRawPastas(pastaJson);
 
@@ -23,13 +27,6 @@ memeJson.forEach((meme) => {
 const PASTA_SET = "PASTA_SET";
 const MEME_SET = "MEME_SET";
 
-// eslint-disable-next-line no-undef
-if (!process.env.DISCORD_TOKEN) {
-  logger.error("Error: Specify DISCORD_TOKEN in .env");
-  // eslint-disable-next-line no-undef
-  process.exit(1);
-}
-
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -39,21 +36,11 @@ const client = new Client({
   ],
 });
 
-let textChannels: string[];
-
 // When the client is ready, run this code (only once).
 // The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
 // It makes some properties non-nullable.
 client.once(Events.ClientReady, (readyClient) => {
   logger.info(`Ready! Logged in as ${readyClient.user.tag}`);
-
-  textChannels = client.channels.cache
-    .filter((channel) => {
-      return channel.isTextBased() && channel.isSendable();
-    })
-    .map((channel) => {
-      return channel.id;
-    });
 });
 
 function getHighestScoringInSet(allMatchedItems: [number, string][]) {
@@ -200,7 +187,10 @@ async function makeRequest(searchTerm: string, usernameMakingRequest: string) {
 client.on(Events.MessageCreate, async (message) => {
   if (message.author.bot) return;
 
-  if (!textChannels.includes(message.channelId)) return;
+  // if (!textChannels.includes(message.channelId)) return;
+  if (!message.channel.isSendable() || !message.channel.isTextBased()) {
+    return;
+  }
 
   if (message.author.username.toLowerCase() === "mercer_less") {
     await message.react("🤌");
