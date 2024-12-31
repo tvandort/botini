@@ -17,7 +17,7 @@ export async function fetchUncookedPastas(revision = 1259032650) {
     tables.push(caption.closest("table"));
   }
 
-  const pastas: { text: string; url: string }[] = [];
+  const pastas: { text: string; url: string | undefined }[] = [];
   for (const table of tables) {
     const rows = table?.querySelector("tbody")?.querySelectorAll("tr") ?? [];
     for (let rowIndex = 1; rowIndex < rows.length; rowIndex++) {
@@ -74,7 +74,7 @@ export function mapRawPastas(
   const allNames = [];
   const dictionary: Record<
     string,
-    { names: string[]; text: string; url: string }
+    { names: string[]; text: string; url: string | undefined }
   > = {};
   for (const pasta of transformed) {
     for (const name of pasta.names) {

@@ -60,9 +60,9 @@ function getMatchingStrings(
 ) {
   logger.info(`SETS MATCHING ON: ${setsToCheck.join(", ")}`);
   // Comma separated list of strings to suggest
-  const allMatchedStrings: { pastas: string[]; memes: string[] } = {
-    pastas: [],
-    memes: [],
+  const allMatchedStrings: { pastas: string; memes: string } = {
+    pastas: "",
+    memes: "",
   };
 
   // array of [score, matched_value] arrays
