@@ -3,9 +3,9 @@ import { Client, Events, GatewayIntentBits } from "discord.js";
 
 import FuzzySet from "fuzzyset";
 
-import memeJson from "../data/memes.json" with { type: "json" };
-import foodJson from "../data/food.json" with { type: "json" };
-import pastaJson from "../data/pastas.json" with { type: "json" };
+import memeJson from "../data/memes.json";
+import foodJson from "../data/food.json";
+import pastaJson from "../data/pastas.json";
 import { RateLimiter } from "./rater-limiter.js";
 import { getLogger } from "./logger.js";
 import { mapRawPastas } from "./pasta.js";
