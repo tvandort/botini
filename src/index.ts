@@ -9,8 +9,16 @@ import pastaJson from "../data/pastas.json";
 import { RateLimiter } from "./rater-limiter.js";
 import { getLogger } from "./logger.js";
 import { mapRawPastas } from "./pasta.js";
+import { ensureEnv } from "./env";
+import { capitalize } from "./capitalize";
+
+interface HasMessage {
+  message: string;
+}
 
 const logger = getLogger();
+ensureEnv({ logger });
+
 const rateLimiter = new RateLimiter();
 const pastaData = mapRawPastas(pastaJson);
 
@@ -23,13 +31,6 @@ memeJson.forEach((meme) => {
 const PASTA_SET = "PASTA_SET";
 const MEME_SET = "MEME_SET";
 
-// eslint-disable-next-line no-undef
-if (!process.env.DISCORD_TOKEN) {
-  logger.error("Error: Specify DISCORD_TOKEN in .env");
-  // eslint-disable-next-line no-undef
-  process.exit(1);
-}
-
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -39,21 +40,11 @@ const client = new Client({
   ],
 });
 
-let textChannels: string[];
-
 // When the client is ready, run this code (only once).
 // The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
 // It makes some properties non-nullable.
 client.once(Events.ClientReady, (readyClient) => {
   logger.info(`Ready! Logged in as ${readyClient.user.tag}`);
-
-  textChannels = client.channels.cache
-    .filter((channel) => {
-      return channel.isTextBased() && channel.isSendable();
-    })
-    .map((channel) => {
-      return channel.id;
-    });
 });
 
 function getHighestScoringInSet(allMatchedItems: [number, string][]) {
@@ -69,9 +60,9 @@ function getMatchingStrings(
 ) {
   logger.info(`SETS MATCHING ON: ${setsToCheck.join(", ")}`);
   // Comma separated list of strings to suggest
-  const allMatchedStrings: { pastas: any; memes: any } = {
-    pastas: [],
-    memes: [],
+  const allMatchedStrings: { pastas: string; memes: string } = {
+    pastas: "",
+    memes: "",
   };
 
   // array of [score, matched_value] arrays
@@ -144,17 +135,6 @@ function getMatchingStringsSorted(
     .join(", ");
 }
 
-function capitalize(stringToCapitalize: string) {
-  if (!stringToCapitalize?.length) {
-    return;
-  }
-
-  return (
-    String(stringToCapitalize[0]).toUpperCase() +
-    String(stringToCapitalize).slice(1)
-  );
-}
-
 // TODO Handle non-wikipedia
 async function makeRequest(searchTerm: string, usernameMakingRequest: string) {
   const isAllowed = await rateLimiter.isUserRateLimited(usernameMakingRequest);
@@ -200,7 +180,9 @@ async function makeRequest(searchTerm: string, usernameMakingRequest: string) {
 client.on(Events.MessageCreate, async (message) => {
   if (message.author.bot) return;
 
-  if (!textChannels.includes(message.channelId)) return;
+  if (!message.channel.isSendable() || !message.channel.isTextBased()) {
+    return;
+  }
 
   if (message.author.username.toLowerCase() === "mercer_less") {
     await message.react("🤌");
@@ -220,16 +202,14 @@ client.on(Events.MessageCreate, async (message) => {
 
   if (messageContentClean.includes("taylor ham")) {
     await message.react("🤌");
-
-    message.channel.send(
+    await message.channel.send(
       "https://tenor.com/view/soprano-smile-happy-gif-14831229",
     );
 
     return;
   } else if (messageContentClean.includes("pork roll")) {
     await message.react("🖕");
-
-    message.channel.send(
+    await message.channel.send(
       "https://tenor.com/view/sopranos-paulie-gualtieri-happy-smile-lol-gif-16139758",
     );
 
@@ -240,7 +220,7 @@ client.on(Events.MessageCreate, async (message) => {
   const allFuzzyMatchingStrings = getMatchingStrings(messageContentClean);
 
   if (allFuzzyMatchingStrings?.pastas?.length) {
-    message.channel.send(
+    await message.channel.send(
       `Nonna asks if you meant any of the following: ${allFuzzyMatchingStrings.pastas}?`,
     );
 
@@ -248,7 +228,7 @@ client.on(Events.MessageCreate, async (message) => {
   }
 
   if (allFuzzyMatchingStrings?.memes?.length) {
-    message.channel.send(
+    await message.channel.send(
       `Nonna asks if you meant any of the following: ${allFuzzyMatchingStrings.memes}?`,
     );
 
@@ -269,7 +249,7 @@ client.on(Events.MessageCreate, async (message) => {
         );
         break;
       default:
-        message.channel.send((error as any).message);
+        await message.channel.send((error as HasMessage).message);
         break;
     }
 
@@ -299,16 +279,15 @@ client.on(Events.MessageCreate, async (message) => {
     wikipediaArticleExtract;
 
   if (findPastaRelatedItems(stuffToSend) > 0) {
-    message.channel.send("Nonna says you need to include pasta only!");
+    await message.channel.send("Nonna says you need to include pasta only!");
 
     return;
   }
 
   logger.info(`Sending: ${stuffToSend}`);
-  message.channel.send(stuffToSend);
+  await message.channel.send(stuffToSend);
 });
 
-// eslint-disable-next-line no-undef
 client.login(process.env.DISCORD_TOKEN).then(() => logger.info("Logged in!"));
 
 class RequestNotFoundError extends Error {
@@ -336,7 +315,7 @@ function findPastaRelatedItems(inputString: string) {
   const lowerCaseInput = inputString.toLowerCase();
   const matches = [];
 
-  for (let item of foodJson) {
+  for (const item of foodJson) {
     if (lowerCaseInput.includes(item.toLowerCase())) {
       matches.push(item);
     }

@@ -1,4 +1,4 @@
-import { fetchUncookedPastas, mapRawPastas } from "../src/pasta.js";
+import { fetchUncookedPastas } from "../src/pasta.js";
 import * as fs from "node:fs";
 
 const pastas = await fetchUncookedPastas();
