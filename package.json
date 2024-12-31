@@ -34,8 +34,8 @@
     "production": "pm2 start index.js",
     "stop": "pm2 stop index.js",
     "restart": "pm2 restart index.js",
-    "test": "jest",
-    "test:ci": "jest",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:ci": "NODE_OPTIONS=--experimental-vm-modules jest",
     "format": "prettier . --write",
     "format:check": "prettier . --check"
   },
