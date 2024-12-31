@@ -1,7 +1,7 @@
 import { pino } from "pino";
 import pretty from "pino-pretty";
 
-export function Logger() {
+export function getLogger() {
   if ((pretty as any).isColorSupported) {
     return pino({
       transport: {

@@ -7,14 +7,14 @@ import memeJson from "../data/memes.json" with { type: "json" };
 import foodJson from "../data/food.json" with { type: "json" };
 import pastaJson from "../data/pastas.json" with { type: "json" };
 import { RateLimiter } from "./rater-limiter.js";
-import { Logger } from "./logger.js";
+import { getLogger } from "./logger.js";
 import { mapRawPastas } from "./pasta.js";
 
-const logger = new Logger();
+const logger = getLogger();
 const rateLimiter = new RateLimiter();
 const pastaData = mapRawPastas(pastaJson);
 
-const fuzzyPastaSet = FuzzySet({ source: pastaData.allNames });
+const fuzzyPastaSet = FuzzySet(pastaData.allNames);
 const fuzzyMemeSet = FuzzySet();
 memeJson.forEach((meme) => {
   fuzzyMemeSet.add(meme.toLowerCase());
@@ -39,7 +39,7 @@ const client = new Client({
   ],
 });
 
-let textChannels;
+let textChannels: string[];
 
 // When the client is ready, run this code (only once).
 // The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
@@ -56,23 +56,26 @@ client.once(Events.ClientReady, (readyClient) => {
     });
 });
 
-function getHighestScoringInSet(allMatchedItems) {
+function getHighestScoringInSet(allMatchedItems: [number, string][]) {
   return allMatchedItems?.reduce((maxItem, currentItem) =>
     currentItem[0] > maxItem[0] ? currentItem : maxItem,
   )[0];
 }
 
 function getMatchingStrings(
-  stringToMatch,
+  stringToMatch: string,
   scoreMin = 0.5,
   setsToCheck = [PASTA_SET],
 ) {
   logger.info(`SETS MATCHING ON: ${setsToCheck.join(", ")}`);
   // Comma separated list of strings to suggest
-  const allMatchedStrings = {};
+  const allMatchedStrings: { pastas: any; memes: any } = {
+    pastas: [],
+    memes: [],
+  };
 
   // array of [score, matched_value] arrays
-  let allMatchedPastas;
+  let allMatchedPastas: [number, string][] | null = null;
   if (setsToCheck.includes(PASTA_SET)) {
     allMatchedPastas = fuzzyPastaSet.get(stringToMatch);
   }
@@ -94,7 +97,7 @@ function getMatchingStrings(
   }
 
   // array of [score, matched_value] arrays
-  let allMatchedMemes;
+  let allMatchedMemes: [number, string][] | null = null;
   if (setsToCheck.includes(MEME_SET)) {
     allMatchedMemes = fuzzyMemeSet.get(stringToMatch);
   }
@@ -124,13 +127,16 @@ function getMatchingStrings(
  * 3. Capitalize the item names
  * 4. Combine into one string, comma separated
  */
-function getMatchingStringsSorted(fuzzySet, scoreMin) {
+function getMatchingStringsSorted(
+  fuzzySet: [number, string][],
+  scoreMin: number,
+) {
   return fuzzySet
-    .toSorted((thingA, thingB) => {
-      return thingB[0] - thingA[0];
-    })
     .filter((thing) => {
       return thing[0] >= scoreMin;
+    })
+    .sort((thingA, thingB) => {
+      return thingB[0] - thingA[0];
     })
     .map((thing) => {
       return capitalize(thing[1]);
@@ -138,7 +144,7 @@ function getMatchingStringsSorted(fuzzySet, scoreMin) {
     .join(", ");
 }
 
-function capitalize(stringToCapitalize) {
+function capitalize(stringToCapitalize: string) {
   if (!stringToCapitalize?.length) {
     return;
   }
@@ -150,7 +156,7 @@ function capitalize(stringToCapitalize) {
 }
 
 // TODO Handle non-wikipedia
-async function makeRequest(searchTerm, usernameMakingRequest) {
+async function makeRequest(searchTerm: string, usernameMakingRequest: string) {
   const isAllowed = await rateLimiter.isUserRateLimited(usernameMakingRequest);
 
   if (!isAllowed) {
@@ -263,7 +269,7 @@ client.on(Events.MessageCreate, async (message) => {
         );
         break;
       default:
-        message.channel.send(error.message);
+        message.channel.send((error as any).message);
         break;
     }
 
@@ -306,27 +312,27 @@ client.on(Events.MessageCreate, async (message) => {
 client.login(process.env.DISCORD_TOKEN).then(() => logger.info("Logged in!"));
 
 class RequestNotFoundError extends Error {
-  constructor(message) {
+  constructor(message: string) {
     super(message);
     this.name = "RequestNotFoundError";
   }
 }
 
 class RequestFailedError extends Error {
-  constructor(message) {
+  constructor(message: string) {
     super(message);
     this.name = "RequestFailedError";
   }
 }
 
 class RateLimitError extends Error {
-  constructor(message) {
+  constructor(message: string) {
     super(message);
     this.name = "RateLimitError";
   }
 }
 
-function findPastaRelatedItems(inputString) {
+function findPastaRelatedItems(inputString: string) {
   const lowerCaseInput = inputString.toLowerCase();
   const matches = [];
 
