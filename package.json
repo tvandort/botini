@@ -40,6 +40,5 @@
     "format:check": "prettier . --check"
   },
   "description": "A Discord bot to make Nonna proud!",
-  
   "private": true
 }
